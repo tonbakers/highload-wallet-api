@@ -1,0 +1,26 @@
+{
+    "server": {
+        "host": "0.0.0.0",
+        "port": "8091",
+        "prefork": true
+    },
+    "ton_net": {
+        "json_rpc_url": "https://toncenter.com/api/v2/jsonRPC"
+    },
+    "fift": {
+        "path": "/usr/src/ton/crypto/fift/lib:/usr/src/ton/crypto/smartcont",
+        "binary": "/usr/bin/ton/crypto/fift"
+    },
+    "contract": {
+        "new_order_fif": "contract/new-order.fif"
+    },
+    "temp_path": {
+        "orders": "temp/orders",
+        "bocs": "temp/bocs"
+    }, 
+    "wallet": {
+        "path": "contract/generated",
+        "name": "new-wallet",
+        "subwallet_id": "1"
+    }
+}

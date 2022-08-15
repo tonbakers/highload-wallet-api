@@ -19,7 +19,7 @@ go.work
 contract/generated
 
 # config
-config.json
+#config.json
 
 # temp
 temp/bocs/*
