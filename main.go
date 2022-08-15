@@ -27,6 +27,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	
+    "os"
+    "os/exec"
 )
 
 func main() {
@@ -41,6 +44,27 @@ func main() {
 		TimeFormat: "02-Jan-2006 15:04:05",
 	}))
 
+	app.Get("/",func (c *fiber.Ctx) error {
+		walletinfo, err := os.ReadFile("contract/generated/wallet-info.txt") 
+    	if err != nil {
+        	return c.SendString("error reading wallet-info.txt")
+    	}
+
+        return c.SendString(string(walletinfo))
+    })
+
+    app.Get("/activate",func (c *fiber.Ctx) error {
+
+		cmd := exec.Command("contract/activate-wallet.sh", "https://toncenter.com/api/v2/jsonRPC")
+    	stdout, err := cmd.Output()
+
+	    if err != nil {
+	        return c.SendString(err.Error())
+	    }
+
+	    return c.SendString(string(stdout))
+    })
+    
 	app.Post("/transfer", api.Transfer)
 
 	app.Listen(config.Cfg.Server.Host + ":" + config.Cfg.Server.Port)

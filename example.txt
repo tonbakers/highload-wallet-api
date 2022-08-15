@@ -1,0 +1,1 @@
+curl -X POST http://localhost:8091/transfer -H "Content-Type: application/json" -d '{"transfer_tasks":[{"dest_address":"UQCVUtsZssLQoDJipZr4SgsLxYssHtv809qCEBVGCsCHgUtU","amount_ton":"0.0001","msg":"test"}]}'

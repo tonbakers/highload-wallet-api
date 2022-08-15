@@ -1,18 +1,19 @@
 #!/bin/bash
 
-help(){
-    echo "Usage: 
-    ./activate-wallet.sh {jsonRPC url}"
-    exit 2
-}
+#help(){
+#    echo "Usage: 
+#    ./activate-wallet.sh {jsonRPC url}"
+#    exit 2
+#}
 
-JSON_RPC_URL=$1
-BOC_FILENAME="generated/new-wallet1-query.boc"
+#JSON_RPC_URL=$1
+JSON_RPC_URL="https://toncenter.com/api/v2/jsonRPC"
+BOC_FILENAME="contract/generated/new-wallet1-query.boc"
 
 [[ -z "$JSON_RPC_URL" ]] && help
 [ ! -f $BOC_FILENAME ] && echo "${BOC_FILENAME} does not exist" &&  exit 2
 
-B64_BOC=`base64 -w 0 generated/new-wallet1-query.boc`
+B64_BOC=`base64 -w 0 contract/generated/new-wallet1-query.boc`
 
 printf "JSON RPC response:\n\n"
 

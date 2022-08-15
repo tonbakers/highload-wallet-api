@@ -5,7 +5,39 @@
 
 API wrapper over high-load TON wallet smart contract. Can be useful for cryptocurrency exchanges or any services where mass payments in TON coins are required.
 
-## Getting started
+## Running Highload-wallet-api as a service with Dockerfile
+
+1. Run your instance:
+
+ - `docker build -t hlw .`
+ - `docker run --rm -p 8091:8091 hwl`
+
+The highload wallet private keys would be generated during build and saved inside the image.
+
+2. Back up your image or keys:
+ 
+ - `docker cp container-id:/app/contract/generated/*.* /root/`
+
+3. Activate your wallet:
+ 
+ - Check the wallet address: http://127.0.0.1:8091
+ - Send 0.1 TON to Non-bouncable address
+ - Run http://127.0.0.1:8091/activate several times,
+ - Until you see on https://tonscan.org/ the address status is activated.
+
+ 4. Sending your TON transactions:
+
+One by one:
+
+ - `curl -X POST http://localhost:8091/transfer -H "Content-Type: application/json" -d '{"transfer_tasks":[{"dest_address":"EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N","amount_ton":"0.0001","msg":"test"}]}'`
+
+Up to 100 simultaneously:
+
+ - `curl -X POST http://localhost:8091/transfer -H "Content-Type: application/json" -d '{"transfer_tasks":[{"dest_address":"EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N","amount_ton":"0.0001","msg":"test1"},{"dest_address":"EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N","amount_ton":"0.0003","msg":"test2"}]}'`
+
+5. As no authorisation is required to use that API, please use it only as an internal service, without exposure to the internet. Otherwise, you can get robbed very soon.
+
+## Original way to install and use Highload-wallet-api 
 
 First, you need to compile the FunC and Fift needed to create the wallet and interact with it. The easiest way to do this is to install `mytonctrl` in `lite` mode from https://github.com/igroman787/mytonctrl
 
