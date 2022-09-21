@@ -10,13 +10,13 @@ API wrapper over high-load TON wallet smart contract. Can be useful for cryptocu
 1. Run your instance:
 
  - `docker build -t hlw .`
- - `docker run --rm -p 8091:8091 hlw`
+ - `docker run --rm -ti -p 8091:8091 --name hlw hlw`
 
 The highload wallet private keys would be generated during build and saved inside the image.
 
 2. Back up your image or keys:
  
- - `docker cp container-id:/app/contract/generated/*.* /root/`
+ - `docker cp hlw:/app/contract/generated ~/ton_contracts`
 
 3. Activate your wallet:
  
