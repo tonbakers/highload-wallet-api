@@ -152,4 +152,4 @@ https://github.com/akifoq/highload-wallet
 
 GPL-3.0 License
 
-The original license text can be obtained in the "LICENSE" file 
+The original license text can be obtained in the "LICENSE" file.
