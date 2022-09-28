@@ -21,12 +21,11 @@ func New(config config.FileConfig) fiber.Handler {
 		Filter: func(c *fiber.Ctx) bool { return config.Server.AllowToken },
 		Token:  config.Server.Token,
 	}
-
 	return func(c *fiber.Ctx) error {
-		if cfg.Filter != nil && cfg.Filter(c) {
+		if !(cfg.Filter != nil && cfg.Filter(c)) {
 			fmt.Println("Authorization middleware was skipped.")
+			return c.Next()
 		}
-		fmt.Println("Authorization middleware is enabled.")
 
 		check := func(c *fiber.Ctx) error {
 			authHeader := c.Get("Authorization")
@@ -47,7 +46,7 @@ func New(config config.FileConfig) fiber.Handler {
 					api.Apierrs.ErrorUnauthorized.Code,
 				).JSON(api.Apierrs.ErrorUnauthorized)
 			}
-			return nil
+			return c.Next()
 		}
 		return check(c)
 	}
