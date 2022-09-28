@@ -31,15 +31,21 @@ func New(config config.FileConfig) fiber.Handler {
 		check := func(c *fiber.Ctx) error {
 			authHeader := c.Get("Authorization")
 			if authHeader == "" {
-				return c.JSON(api.Apierrs.ErrorInvalidAuthHeader)
+				return c.Status(
+					api.Apierrs.ErrorInvalidAuthHeader.Code,
+				).JSON(api.Apierrs.ErrorInvalidAuthHeader)
 			}
-			if !strings.Contains(authHeader, "Bearer:") {
-				return c.JSON(api.Apierrs.ErrorInvalidAuthHeader)
+			if !strings.Contains(authHeader, "Bearer") {
+				return c.Status(
+					api.Apierrs.ErrorInvalidAuthHeader.Code,
+				).JSON(api.Apierrs.ErrorInvalidAuthHeader)
 			}
-			values := strings.Split(authHeader, ":")
+			values := strings.Split(authHeader, " ")
 			token := strings.TrimSpace(values[1])
 			if token != cfg.Token {
-				return c.JSON(api.Apierrs.ErrorUnauthorized)
+				return c.Status(
+					api.Apierrs.ErrorUnauthorized.Code,
+				).JSON(api.Apierrs.ErrorUnauthorized)
 			}
 			return nil
 		}

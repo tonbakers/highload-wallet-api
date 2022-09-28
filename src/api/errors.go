@@ -45,6 +45,6 @@ var Apierrs = struct {
 	ErrorJsonRpc:           err{1002, "json rpc return an unexpected error", false},
 	ErrorTransferSize:      err{1003, "transfer_tasks length more than 100 elements", false},
 	ErrorMsgTooLong:        err{1004, "msg must be between 0 and 123 characters long", false},
-	ErrorUnauthorized:      err{1005, "unauthorized", false},
-	ErrorInvalidAuthHeader: err{1006, "invalid auth header", false},
+	ErrorUnauthorized:      err{403, "unauthorized", false},
+	ErrorInvalidAuthHeader: err{400, "invalid auth header", false},
 }
