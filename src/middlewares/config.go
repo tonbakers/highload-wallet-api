@@ -40,6 +40,12 @@ func New(config config.FileConfig) fiber.Handler {
 				).JSON(api.Apierrs.ErrorInvalidAuthHeader)
 			}
 			values := strings.Split(authHeader, " ")
+			prefix := strings.TrimSpace(values[0])
+			if prefix != "Bearer" {
+				return c.Status(
+					api.Apierrs.ErrorInvalidAuthHeader.Code,
+				).JSON(api.Apierrs.ErrorInvalidAuthHeader)
+			}
 			token := strings.TrimSpace(values[1])
 			if token != cfg.Token {
 				return c.Status(
