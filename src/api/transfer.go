@@ -54,17 +54,17 @@ func Transfer(c *fiber.Ctx) error {
 	var data TransferData
 
 	if err := c.BodyParser(&data); err != nil {
-		return c.JSON(apierrs.ErrorJsonData)
+		return c.Status(400).JSON(Apierrs.ErrorJsonData)
 	}
 
 	if len(data.TransferTasks) > 100 {
-		return c.JSON(apierrs.ErrorTransferSize)
+		return c.Status(400).JSON(Apierrs.ErrorTransferSize)
 	}
 
 	var ordertxt string
 	for i, tr := range data.TransferTasks {
 		if len(tr.Msg) > 123 {
-			return c.JSON(apierrs.ErrorMsgTooLong)
+			return c.Status(400).JSON(Apierrs.ErrorMsgTooLong)
 		}
 		ordertxt += fmt.Sprintf("SEND %s %s %s", tr.DestAddr, tr.AmountTon, tr.Msg)
 		if i != len(data.TransferTasks)-1 {
@@ -75,7 +75,7 @@ func Transfer(c *fiber.Ctx) error {
 	ordfileName := path.Join(config.Cfg.TempPath.Orders, "order_"+utils.UUID()+".txt")
 	if err := os.WriteFile(ordfileName, []byte(ordertxt), 0644); err != nil {
 		log.Println("ERROR WriteFile: " + err.Error())
-		return c.JSON(httperrs.InternalServerError500)
+		return c.Status(httperrs.InternalServerError500.Code).JSON(httperrs.InternalServerError500)
 	}
 
 	bocfileName := path.Join(config.Cfg.TempPath.Bocs, "q_"+utils.UUID())
@@ -106,7 +106,7 @@ func Transfer(c *fiber.Ctx) error {
 
 	if err := cmd.Start(); err != nil {
 		log.Println("ERROR generate order cmd.Start(): " + err.Error())
-		return c.JSON(httperrs.InternalServerError500)
+		return c.Status(httperrs.InternalServerError500.Code).JSON(httperrs.InternalServerError500)
 	}
 	cmd.Wait()
 
@@ -120,7 +120,7 @@ func Transfer(c *fiber.Ctx) error {
 		log.Println("JSON RPC return not ok:")
 		log.Println(jrpcresp)
 		log.Println("-----------------")
-		return c.JSON(apierrs.ErrorJsonRpc)
+		return c.Status(503).JSON(Apierrs.ErrorJsonRpc)
 	}
 
 	return c.JSON(okres)

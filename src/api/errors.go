@@ -33,14 +33,18 @@ var httperrs = struct {
 	InternalServerError500: err{500, "500 Internal Server Error", false},
 }
 
-var apierrs = struct {
-	ErrorJsonData     err
-	ErrorJsonRpc      err
-	ErrorTransferSize err
-	ErrorMsgTooLong   err
+var Apierrs = struct {
+	ErrorJsonData          err
+	ErrorJsonRpc           err
+	ErrorTransferSize      err
+	ErrorMsgTooLong        err
+	ErrorUnauthorized      err
+	ErrorInvalidAuthHeader err
 }{
-	ErrorJsonData:     err{1001, "error json data", false},
-	ErrorJsonRpc:      err{1002, "json rpc return an unexpected error", false},
-	ErrorTransferSize: err{1003, "transfer_tasks length more than 100 elements", false},
-	ErrorMsgTooLong:   err{1004, "msg must be between 0 and 123 characters long", false},
+	ErrorJsonData:          err{1001, "error json data", false},
+	ErrorJsonRpc:           err{1002, "json rpc return an unexpected error", false},
+	ErrorTransferSize:      err{1003, "transfer_tasks length more than 100 elements", false},
+	ErrorMsgTooLong:        err{1004, "msg must be between 0 and 123 characters long", false},
+	ErrorUnauthorized:      err{403, "unauthorized", false},
+	ErrorInvalidAuthHeader: err{400, "invalid auth header", false},
 }
