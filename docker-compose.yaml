@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - /usr/local/bin/hwl_keys/:/app/contract/generated
+      - ./config.json:/config.json
     ports:
       - "8091:8091"
     restart: always
