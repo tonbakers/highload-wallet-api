@@ -22,14 +22,15 @@ along with highload-wallet-api.  If not, see <https://www.gnu.org/licenses/>.
 package main
 
 import (
-	"highload-wallet-api/src/api"
-	"highload-wallet-api/src/config"
+	"os"
+	"os/exec"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	
-    "os"
-    "os/exec"
+
+	"highload-wallet-api/src/api"
+	"highload-wallet-api/src/config"
+	"highload-wallet-api/src/middlewares"
 )
 
 func main() {
@@ -43,28 +44,28 @@ func main() {
 		Format:     "[${time}] ${path} ${method} ${status}\n",
 		TimeFormat: "02-Jan-2006 15:04:05",
 	}))
+	app.Use(middlewares.New(config.Cfg))
 
-	app.Get("/",func (c *fiber.Ctx) error {
-		walletinfo, err := os.ReadFile("contract/generated/wallet-info.txt") 
-    	if err != nil {
-        	return c.SendString("error reading wallet-info.txt")
-    	}
+	app.Get("/", func(c *fiber.Ctx) error {
+		walletinfo, err := os.ReadFile("contract/generated/wallet-info.txt")
+		if err != nil {
+			return c.SendString("error reading wallet-info.txt")
+		}
+		return c.SendString(string(walletinfo))
+	})
 
-        return c.SendString(string(walletinfo))
-    })
-
-    app.Get("/activate",func (c *fiber.Ctx) error {
+	app.Get("/activate", func(c *fiber.Ctx) error {
 
 		cmd := exec.Command("contract/activate-wallet.sh", "https://toncenter.com/api/v2/jsonRPC")
-    	stdout, err := cmd.Output()
+		stdout, err := cmd.Output()
 
-	    if err != nil {
-	        return c.SendString(err.Error())
-	    }
+		if err != nil {
+			return c.SendString(err.Error())
+		}
 
-	    return c.SendString(string(stdout))
-    })
-    
+		return c.SendString(string(stdout))
+	})
+
 	app.Post("/transfer", api.Transfer)
 
 	app.Listen(config.Cfg.Server.Host + ":" + config.Cfg.Server.Port)

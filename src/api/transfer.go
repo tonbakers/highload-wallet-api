@@ -54,17 +54,17 @@ func Transfer(c *fiber.Ctx) error {
 	var data TransferData
 
 	if err := c.BodyParser(&data); err != nil {
-		return c.JSON(apierrs.ErrorJsonData)
+		return c.JSON(Apierrs.ErrorJsonData)
 	}
 
 	if len(data.TransferTasks) > 100 {
-		return c.JSON(apierrs.ErrorTransferSize)
+		return c.JSON(Apierrs.ErrorTransferSize)
 	}
 
 	var ordertxt string
 	for i, tr := range data.TransferTasks {
 		if len(tr.Msg) > 123 {
-			return c.JSON(apierrs.ErrorMsgTooLong)
+			return c.JSON(Apierrs.ErrorMsgTooLong)
 		}
 		ordertxt += fmt.Sprintf("SEND %s %s %s", tr.DestAddr, tr.AmountTon, tr.Msg)
 		if i != len(data.TransferTasks)-1 {
@@ -120,7 +120,7 @@ func Transfer(c *fiber.Ctx) error {
 		log.Println("JSON RPC return not ok:")
 		log.Println(jrpcresp)
 		log.Println("-----------------")
-		return c.JSON(apierrs.ErrorJsonRpc)
+		return c.JSON(Apierrs.ErrorJsonRpc)
 	}
 
 	return c.JSON(okres)

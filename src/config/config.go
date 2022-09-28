@@ -29,9 +29,11 @@ import (
 
 type FileConfig struct {
 	Server struct {
-		Host    string `json:"host"`
-		Port    string `json:"port"`
-		Prefork bool   `json:"prefork"`
+		Host       string `json:"host"`
+		Port       string `json:"port"`
+		Prefork    bool   `json:"prefork"`
+		Token      string `json:"token"`
+		AllowToken bool   `json:"allow-token"`
 	} `json:"server"`
 
 	TonNet struct {
