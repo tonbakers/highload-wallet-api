@@ -23,7 +23,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # build fift and func
-RUN git clone --recurse-submodules --shallow-submodules --depth 1 --no-tags https://github.com/newton-blockchain/ton.git \
+RUN git clone --recurse-submodules --shallow-submodules --depth 1 --no-tags https://github.com/ton-blockchain/ton.git \
     && cmake -DCMAKE_BUILD_TYPE=Release /ton \
     && make -j 4 fift func
 
