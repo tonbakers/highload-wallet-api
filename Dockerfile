@@ -49,6 +49,7 @@ RUN apt-get update \
         ca-certificates \
         curl \
         libssl-dev \
+        libatomic1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
