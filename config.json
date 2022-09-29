@@ -7,7 +7,7 @@
         "allow-token": true
     },
     "ton_net": {
-        "json_rpc_url": "https://toncenter.com/api/v2/jsonRPC"
+        "json_rpc_url": "http://161.97.154.129:8081/jsonRPC"
     },
     "fift": {
         "path": "/usr/src/ton/crypto/fift/lib:/usr/src/ton/crypto/smartcont",
