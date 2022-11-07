@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <form id="formElem">
+        <input type="text" name="access_token" placeholder="Access token">
+        <input type="text" name="dest_address" placeholder="Wallet address">
+        <input type="text" name="amount_ton" placeholder="Value to send"> 
+        <input type="text" name="msg" value="test">
+        <input type="submit">
+    </form>
+    <div id="decoded"></div>
+</body>
+<script>
+    formElem.onsubmit = async (e) => {
+      e.preventDefault();
+      var form = document.querySelector("#formElem");
+
+        data = {
+            transfer_tasks: [
+                {
+                    dest_address: form.querySelector('input[name="dest_address"]').value,
+                    amount_ton: form.querySelector('input[name="amount_ton"]').value,
+                    msg: form.querySelector('input[name="msg"]').value
+                },
+            ],
+        }
+        console.log(data)
+        console.log(JSON.stringify(data, null, 2))
+        let response = await fetch('http://127.0.0.1:8091/transfer', {
+                mode: 'same-origin',
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + form.querySelector('input[name=\"access_token\"]').value,
+                }),
+                body: JSON.stringify(data, null, 2),
+                referrerPolicy: 'origin',
+                credentials: "omit",
+                redirect: "follow",
+        })
+        let text = await response.text(); // read response body as text
+        console.log(text);
+        document.querySelector("#decoded").innerHTML = text;
+    };
+</script>
+</html>

@@ -59,6 +59,7 @@ COPY --from=ton_builder /ton/crypto /usr/src/ton/crypto
 WORKDIR /app
 COPY config.json ./
 COPY contract/ contract/
+COPY static/ static/
 COPY --from=go_builder /app/highload-wallet-api /app/highload-wallet-api
 RUN cd /app/contract/ && bash wallet.sh
 RUN mkdir /app/temp && mkdir /app/temp/bocs && mkdir /app/temp/orders

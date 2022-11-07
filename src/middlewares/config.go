@@ -29,6 +29,7 @@ func New(config config.FileConfig) fiber.Handler {
 
 		check := func(c *fiber.Ctx) error {
 			authHeader := c.Get("Authorization")
+			fmt.Println("Auth header:", authHeader)
 			if authHeader == "" {
 				return c.Status(
 					api.Apierrs.ErrorInvalidAuthHeader.Code,
