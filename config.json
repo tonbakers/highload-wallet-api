@@ -4,7 +4,7 @@
         "port": "8091",
         "prefork": true,
         "token": "NG5icjM0YmwzcDRzc3cwcmQ=",
-        "allow-token": true
+        "allow-token": false
     },
     "ton_net": {
         "json_rpc_url": "http://161.97.154.129:8081/jsonRPC"

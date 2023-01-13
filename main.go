@@ -59,22 +59,22 @@ func main() {
 
 	router := app.Group("/")
 
-	router.Get(
-		"/",
+  router.Get(
+    "/",
+    middlewares.New(config.Cfg),
+    func(c *fiber.Ctx) error {
+      walletinfo, err := os.ReadFile("contract/generated/wallet-info.txt")
+      if err != nil {
+        return c.SendString("error reading wallet-info.txt")
+      }
+      return c.SendString(string(walletinfo))
+    },
+  ).Get(
+		"/form",
 		func(c *fiber.Ctx) error {
 			return c.Render("HLform", fiber.Map{
 				"Title": "Tranfser view",
 			})
-		},
-	).Get(
-		"/info",
-		middlewares.New(config.Cfg),
-		func(c *fiber.Ctx) error {
-			walletinfo, err := os.ReadFile("contract/generated/wallet-info.txt")
-			if err != nil {
-				return c.SendString("error reading wallet-info.txt")
-			}
-			return c.SendString(string(walletinfo))
 		},
 	).Get(
 		"/activate",
